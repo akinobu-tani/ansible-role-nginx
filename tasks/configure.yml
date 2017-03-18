@@ -10,16 +10,17 @@
   notify:
     - restart nginx
 
-- name: nginx server
-  copy:
-    src: "{{item.template | default(name + '.conf.j2')}}"
-    dest: /etc/nginx/conf.d/{{item.name | default(item)}}.conf
-    owner: root
-    group: root
-    mode: 0644
-  with_items: "{{nginx_servers | default([])}}"
+- name: delete default server
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  when: nginx_delete_default_server | default(false)
   notify:
     - restart nginx
+
+- name: nginx server
+  include: server.yml
+  with_items: "{{nginx_servers | default([])}}"
 
 - name: make log directory
   file:
@@ -36,7 +37,6 @@
     owner: root
     group: root
     mode: 0644
-
 
 - name: start service
   service:

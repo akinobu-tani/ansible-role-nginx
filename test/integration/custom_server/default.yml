@@ -1,0 +1,11 @@
+---
+
+- hosts: localhost
+  roles:
+    - ansible-role-nginx
+  vars:
+    nginx_version: 1.10.3
+    nginx_delete_default_server: yes
+    nginx_servers:
+      - name: custom
+        template: roles/ansible-role-nginx/test/integration/custom_server/custom.conf.j2

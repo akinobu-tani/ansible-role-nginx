@@ -33,3 +33,4 @@ verifier:
 
 suites:
   - name: default
+  - name: custom_server

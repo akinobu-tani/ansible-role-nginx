@@ -12,6 +12,8 @@ bundler_args: --without development
 env:
   - INSTANCE=default-centos-7
   - INSTANCE=default-amazonlinux-201609
+  - INSTANCE=custom-server-centos-7
+  - INSTANCE=custom-server-amazonlinux-201609
 
 script:
   - bundle exec kitchen test $INSTANCE

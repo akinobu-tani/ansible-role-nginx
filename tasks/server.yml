@@ -1,0 +1,17 @@
+---
+
+- set_fact:
+    name: "{{item.name | default(item)}}"
+
+- set_fact:
+    template: "{{item.template | default('templates/nginx/' + name + '.conf.j2')}}"
+
+- name: nginx server
+  template:
+    src: "{{template}}"
+    dest: /etc/nginx/conf.d/{{name}}.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx
