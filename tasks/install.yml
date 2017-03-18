@@ -2,7 +2,7 @@
 
 - set_fact:
     os: centos
-    os_release: ansible_distribution_major_version
+    os_release: "{{ansible_distribution_major_version}}"
   when: ansible_distribution == "CentOS"
 
 - set_fact:
@@ -20,7 +20,6 @@
     baseurl: http://nginx.org/packages/{{os}}/{{os_release}}/$basearch/
     gpgcheck: yes
     enabled: false
-    priority: "{{nginx_repo_priority}}"
   when: nginx_repo_type != 'mainline'
 
 - name: set up the mainline repository
@@ -30,20 +29,31 @@
     baseurl: http://nginx.org/packages/mainline/{{os}}/{{os_release}}/$basearch/
     gpgcheck: yes
     enabled: false
-    priority: "{{nginx_repo_priority}}"
   when: nginx_repo_type == 'mainline'
 
 - name: install nginx
   yum:
     name: "nginx{{'' if nginx_version is undefined else '-' + nginx_version}}"
     enablerepo: "nginx"
+  when: ansible_distribution != "Amazon"
 
-- name: configure yum update to ignore nginx
-  shell: >
-    if ! (grep -q '^exclude=' /etc/yum.conf); then
-      echo "\nexclude=nginx" >> /etc/yum.conf && echo -e \\nchanged
-    elif ! (grep -Eq '^exclude=(.* |)nginx ?' /etc/yum.conf); then
-      sed -e 's/^(exclude=.*)$/\1 nginx/' /etc/yum.conf && echo -e \\nchanged
-    fi
-  register: result
-  changed_when: "'changed' in result.stdout_lines"
+
+- when: ansible_distribution == "Amazon"
+  block:
+
+    - name: install nginx on amazon linux
+      yum:
+        name: "nginx{{'' if nginx_version is undefined else '-' + nginx_version}}"
+        enablerepo: "nginx"
+        disablerepo: "amzn-main"
+
+
+    - name: configure yum update to ignore nginx
+      shell: >
+        if ! (grep -q '^exclude=' /etc/yum.conf); then
+          echo -e "\nexclude=nginx*" >> /etc/yum.conf && echo -e \\nchanged
+        elif ! (grep -Eq '^exclude=(.* |)nginx ?' /etc/yum.conf); then
+          sed -e 's/^(exclude=.*)$/\1 nginx*/' /etc/yum.conf && echo -e \\nchanged
+        fi
+      register: result
+      changed_when: "'changed' in result.stdout_lines"
