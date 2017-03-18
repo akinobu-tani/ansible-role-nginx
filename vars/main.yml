@@ -1,4 +1,4 @@
 ---
 
 nginx_rpm_key_url: http://nginx.org/keys/nginx_signing.key
-
+nginx_log_dir: /var/log/nginx

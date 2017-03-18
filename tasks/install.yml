@@ -37,7 +37,6 @@
     enablerepo: "nginx"
   when: ansible_distribution != "Amazon"
 
-
 - when: ansible_distribution == "Amazon"
   block:
 
