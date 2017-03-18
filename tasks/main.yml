@@ -1,0 +1,7 @@
+---
+
+- become: yes
+  block:
+
+    - include: install.yml
+    - include: configure.yml

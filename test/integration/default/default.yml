@@ -1,0 +1,7 @@
+---
+
+- hosts: localhost
+  roles:
+    - ansible-role-nginx
+  vars:
+    nginx_version: 1.10.3

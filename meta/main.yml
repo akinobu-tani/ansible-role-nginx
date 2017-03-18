@@ -1,0 +1,19 @@
+galaxy_info:
+  author: Akinobu Tani
+  description: Install nginx
+
+  license: MIT
+
+  min_ansible_version: 2.0
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Amazon
+      versions:
+        - 2016.09
+
+  galaxy_tags: []
+
+dependencies: []
