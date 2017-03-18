@@ -22,7 +22,10 @@ nginx_version: 1.11.10
 
 ``` yaml
 nginx_repo_type: mainline
-nginx_repo_priority: 9
+nginx_delete_default_server: no
+nginx_servers:
+  - name: server_name
+    template: templates/nginx/server_name.conf.j2
 ```
 
 Dependencies
