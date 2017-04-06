@@ -38,7 +38,7 @@ http {
 
     access_log  {{nginx_log_dir}}/access.log  main;
 
-    sendfile        on;
+    sendfile        {{nginx_sendfile}};
     #tcp_nopush     on;
 
     keepalive_timeout  65;

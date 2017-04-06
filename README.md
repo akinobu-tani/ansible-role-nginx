@@ -26,6 +26,8 @@ nginx_delete_default_server: no
 nginx_servers:
   - name: server_name
     template: templates/nginx/server_name.conf.j2
+nginx_worker_processes: 1
+nginx_sendfile: 'on'
 ```
 
 Dependencies
