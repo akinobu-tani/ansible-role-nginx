@@ -33,4 +33,10 @@ verifier:
 
 suites:
   - name: default
+    verifier:
+      patterns:
+        - roles/ansible-role-nginx/test/integration/default/serverspec/*_spec.rb
   - name: custom_server
+    verifier:
+      patterns:
+        - roles/ansible-role-nginx/test/integration/custom_server/serverspec/*_spec.rb
